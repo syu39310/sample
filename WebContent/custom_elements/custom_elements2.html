@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CustomElements2</title>
+</head>
+<body>
+<ol></ol>
+<ul></ul>
+<script>
+    var myItemsProto = Object.create(HTMLElement.prototype);
+    myItemsProto.createdCallback = function(){
+        this.createShadowRoot();
+    };
+    myItemsProto.attachedCallback = function(){
+        var root = this.shadowRoot;
+        var mark = this.parentNode.tagName.toLowerCase() == "ol" ? "*": "+";
+        root.innerHTML = this.textContent.split(",").map(function(value){
+            return "<li>" + mark +  value + mark + "</li>"
+        }).join("");
+    };
+    var MyItems = document.registerElement("my-items", {prototype: myItemsProto});
+    //my-items要素をolとul要素に挿入してみる.
+    var myItems = new MyItems();
+    myItems.textContent = "1,2,3";
+    document.querySelector("ol").appendChild(myItems.cloneNode(true));
+    document.querySelector("ul").appendChild(myItems.cloneNode(true));
+</script>
+</body>
+</html>

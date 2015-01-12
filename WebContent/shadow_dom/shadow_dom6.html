@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowTree解析</title>
+</head>
+<body>
+<div>
+<textarea readonly="readonly" style="float:left; width:100%; box-sizing:border-box; line-height:1.5em; font-size:10px;"></textarea>
+</div>
+<script>
+	var div = document.querySelector("div");
+	//複数のシャドウツリーを経由する
+	div.createShadowRoot().innerHTML = "<content></content>";
+	div.createShadowRoot().innerHTML = "<div><shadow></shadow></div>";//見つかるのはここまで
+	//↓はdiv要素が挟まれているので, 抽出対象外
+	div.createShadowRoot().innerHTML = "<shadow></shadow>";
+	var dips = document.querySelector("textarea").getDestinationInsertionPoints();
+	var textarea = document.querySelector("textarea");
+	[].forEach.call(dips, function(dip){
+	    textarea.value += dip + "\r\n";
+	});
+</script>
+</body>
+</html>

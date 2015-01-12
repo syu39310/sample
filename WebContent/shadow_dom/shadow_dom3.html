@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowDomの挿入</title>
+</head>
+<body>
+<template>
+    <fieldset>
+        <legend>Shadow DOM</legend>
+        <content></content><!--←ここにdiv要素の内容が挿入される. -->
+    </fieldset>
+</template>
+<div>
+	<input type="button" value="Shadow DOMに
+	挿入されたボタン1">
+	<input type="button" value="Shadow DOMに
+	挿入されたボタン2">
+</div>
+<script>
+    var div = document.querySelector("div");
+    var root = div.createShadowRoot();
+    var template = document.querySelector("template");
+    root.appendChild(template.content.cloneNode(true));
+</script>
+</body>
+</html>

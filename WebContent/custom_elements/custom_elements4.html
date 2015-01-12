@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CustomElements カスタムイベント</title>
+</head>
+<body>
+<template>
+    <style>input.year{width:50px;}input{width:30px;}</style>
+    <input class="year" type="number" min="1900" max="2999" step="1" value="1900">年
+    <input class="month" type="number" min="1" max="12" step="1" value="1">月
+    <input class="day" type="number" min="1" max="31" step="1" value="1">日
+</template>
+<my-date></my-date>
+↓変更結果
+<div></div>
+
+<script>
+	(function(){
+	    //NOTE:本来であれば,my-date要素にはvalueプロパティを定義するべきでしょう.
+	    var myDateProto = Object.create(HTMLElement.prototype);
+	    myDateProto.attachedCallback = function(){
+	        //シャドウツリーを構成
+	        var root = this.createShadowRoot();
+	        root.innerHTML = document.querySelector("template").innerHTML;
+	        var year = root.querySelector(".year");
+	        var month = root.querySelector(".month");
+	        var day = root.querySelector(".day");
+	        //シャドウツリーの内容をリッスン
+	        root.addEventListener("change", function(){
+	            var e = new CustomEvent("datechange", {
+	                detail: [year.value, month.value, day.value].join("/")
+	            });
+	            this.host.dispatchEvent(e);
+	        }, false);
+	    };
+	    document.registerElement("my-date", {prototype: myDateProto});
+	})();
+	var date = document.querySelector("my-date");
+	var div = document.querySelector("div");
+	date.addEventListener("datechange", function(e){
+	    div.textContent = e.detail;
+	}, false);
+</script>
+</body>
+</html>

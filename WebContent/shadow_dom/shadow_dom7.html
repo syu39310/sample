@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowTree解析2</title>
+</head>
+<body>
+<style>
+    div{
+        margin:10px; border:1px solid black;
+    }
+</style>
+<!--older shadow tree-->
+<template>
+    <div>
+        <content select=".a"></content>
+    </div>
+    <span>シャドウツリー内</span>
+</template>
+<!--younger shadow tree-->
+<template>
+    <div>
+        <shadow></shadow>
+        <content select=".b"></content>
+    </div>
+</template>
+<div>
+	<div class="a">コンテントa</div>
+	<div class="b">コンテントb</div>
+</div>
+<br>
+<textarea readonly="readonly" style="float:left; width:100%; height:150px; box-sizing:border-box; line-height:1.5em; font-size:10px;"></textarea>
+<script>
+	var div = document.querySelector("div");
+	div.createShadowRoot().innerHTML 
+	    = document.querySelector("template:nth-of-type(1)").innerHTML;
+	div.createShadowRoot().innerHTML 
+	    = document.querySelector("template:nth-of-type(2)").innerHTML;
+	document.querySelector("textarea").value = "ツリーの分析結果:\r\n" + disp(div, "", "");
+	
+	//再帰的にツリー構造を生成します.
+	function disp(node, depth, tree){
+	    tree += depth + node.toString() + "\r\n";
+	    if(node.shadowRoot){
+	        return disp(node.shadowRoot, "  " + depth, tree);
+	    }
+	    var children = node instanceof HTMLContentElement 
+	        || node instanceof HTMLShadowElement 
+	        ? node.getDistributedNodes() :node.childNodes;
+	    [].forEach.call(children, function(childNode){
+	        if(childNode.nodeType == 3){return;}
+	        tree = disp(childNode, "  " + depth, tree);
+	    });
+	    return tree;
+	}
+</script>
+</body>
+</html>

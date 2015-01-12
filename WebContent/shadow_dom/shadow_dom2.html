@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowDom隠ぺい</title>
+</head>
+<body>
+<div>隠蔽済み</div>
+<div>隠蔽済み</div>
+<script>
+    var div1 = document.querySelector("div:nth-child(1)");
+    div1.createShadowRoot().innerHTML = "<content></content>";
+    hide(div1);
+    try{
+        div1.shadowRoot.innerHTML = "内容を上書き";
+    }catch(e){}
+
+    //しかしFunction.callで呼び出せてしまう.
+    //NOTE:このcreateShadowRoot関数を完全に消去することが出来ないため,
+    //シャドウツリーを隠蔽する事が出来ないのです.
+    var div2 = document.querySelector("div:nth-child(2)");
+    div2.createShadowRoot().innerHTML = "<content></content>";
+    hide(div2);
+    var root = Element.prototype.createShadowRoot.call(div2);
+    root.olderShadowRoot.innerHTML = "内容を上書き";
+    root.innerHTML = "<shadow></shadow>";
+    
+    //オブジェクト単位でシャドウツリーを隠蔽する
+    function hide(elem){
+        Object.defineProperty(elem, "createShadowRoot", 
+            {value: function(){throw "shadow dom was already created.";}});
+        Object.defineProperty(elem, "shadowRoot", {get: function(){return null;}});
+    }
+</script>
+</body>
+</html>

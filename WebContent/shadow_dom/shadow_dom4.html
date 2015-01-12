@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>条件付きのShadowDomの挿入</title>
+</head>
+<body>
+<template>
+    <fieldset>
+        <legend>一つ目の挿入</legend>
+        <content select="input.a"></content>
+    </fieldset>
+    <fieldset>
+        <legend>二つ目の挿入</legend>
+        <content select="input"></content>
+    </fieldset>
+</template>
+<div>
+    <input type="button" value="ボタン1">
+    <input type="button" value="ボタン2" class="a">
+    <input type="button" value="ボタン3">
+    <input type="button" value="ボタン4" class="a">
+    <div><input type="button" value="ボタン5"></div><!--挿入対象から外れる-->
+</div>
+<script>
+	var div = document.querySelector("div");
+	var root = div.createShadowRoot();
+	var template = document.querySelector("template");
+	root.appendChild(template.content.cloneNode(true));
+</script>
+</body>
+</html>

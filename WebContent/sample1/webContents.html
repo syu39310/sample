@@ -1,0 +1,34 @@
+<template id="tgButtonTemplate">
+    <style>
+        #tgButton {
+            color: white;
+            background-color: red;
+            padding: 10px;
+            font-family: "Arial Black", arial-black;
+            display: inline-block;
+            border: 5px solid white;
+            cursor: pointer;
+        }
+    </style>
+    <span id="tgButton">TOPGATE</span>
+</template>
+ 
+<script>
+    var TgButtonPrototype = Object.create(HTMLElement.prototype);
+    TgButtonPrototype.createdCallback = function() {
+        var template = document.getElementById("tgButtonTemplate");
+ 
+        var root = this.createShadowRoot();
+        root.appendChild(document.importNode(template.content, true));
+ 
+        root.addEventListener("click", function(e) {
+            alert("TOPGATE");
+        });
+    };
+ 
+    var TgButton = document.registerElement("tg-Button", {
+        prototype: TgButtonPrototype
+    });
+</script>
+ 
+<tg-button/>

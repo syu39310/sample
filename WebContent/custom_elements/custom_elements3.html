@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CustomElements継承</title>
+</head>
+<body>
+<my-parent>継承元</my-parent>
+<my-child>継承先</my-child>
+<script>
+    //まずmy-parent要素を定義する
+    var myParentProto = Object.create(HTMLElement.prototype);
+    myParentProto.createdCallback = function(){
+        this.createShadowRoot().innerHTML 
+            = "<div style='border:1px black solid; border-color:red; margin:10px;'><content></content></div>"
+    };
+    var MyParent = document.registerElement("my-parent", {prototype: myParentProto});
+    //それを継承してmy-child要素を定義する(後ろはFireFox対策)
+    var myChildProto = Object.create(MyParent.prototype || (new MyParent()).__proto__);
+    myChildProto.createdCallback = function(){
+        //prototype chainを辿り, 継承元のメソッドを呼び出します. 
+        this.__proto__.__proto__.createdCallback.call(this);
+        //シャドウツリーを追加し, 継承元のツリーをshadow要素に挿入します.
+        //FireFoxでは現状shadow要素が動作しません
+        this.createShadowRoot().innerHTML 
+            = "<div style='border:1px black solid; border-color:blue; margin:10px;'><shadow></shadow></div>";
+    };
+    var MyChild = document.registerElement("my-child", {prototype: myChildProto});
+</script>
+</body>
+</html>

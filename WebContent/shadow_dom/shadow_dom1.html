@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowDom</title>
+</head>
+<body>
+<div>元々の内容</div>
+<div>元々の内容</div>
+<script>
+    //Shadow DOMで見た目を操作する
+    var div = document.querySelector("div:nth-child(2)");
+    div.createShadowRoot().textContent = "Shadow DOMで上書き";
+</script>
+</body>
+</html>

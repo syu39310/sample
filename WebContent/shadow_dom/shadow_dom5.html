@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ShadowTree追加</title>
+</head>
+<body>
+<template>
+    <fieldset>
+        <legend>一つ目</legend>
+        <content></content>
+    </fieldset>
+</template>
+<template>
+    <fieldset>
+        <legend>二つ目</legend>
+        <shadow></shadow>
+    </fieldset>
+</template>
+<div>
+    <input type="button" value="ツリーの複数化">
+</div>
+<script>
+	var div = document.querySelector("div");
+	var root1 = div.createShadowRoot();
+	var template1 = document.querySelector("template:nth-of-type(1)");
+	root1.appendChild(template1.content.cloneNode(true));
+	var root2 = div.createShadowRoot();
+	var template2 = document.querySelector("template:nth-of-type(2)");
+	root2.appendChild(template2.content.cloneNode(true));
+	//root1はroot2.olderShadowRootプロパティに設定される
+	//root2はdiv.shadowRootプロパティに設定される
+</script>
+</body>
+</html>

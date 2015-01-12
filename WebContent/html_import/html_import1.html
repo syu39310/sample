@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HtmlImport</title>
+</head>
+<body>
+<link rel="import" href="./html_import1_1.html" id="import1">
+<div class="sample"></div>
+<script>
+	var htmlDoc = document.getElementById("import1").import;
+	var select = document.importNode(htmlDoc.querySelector("select"), true);
+	document.querySelector("div.sample").appendChild(select);
+</script>
+</body>
+</html>

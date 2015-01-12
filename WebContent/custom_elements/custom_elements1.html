@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CustomElements</title>
+</head>
+<body>
+<my-img></my-img>
+<script>
+    var myImgProto = Object.create(HTMLElement.prototype);
+    myImgProto.createdCallback = function(){
+        this.createShadowRoot().innerHTML = 
+            "<img src='img.png' style='width:200px;height:200px;'/>";
+    };
+    var myImgElement = document.registerElement("my-img", {prototype: myImgProto});
+</script>
+</body>
+</html>

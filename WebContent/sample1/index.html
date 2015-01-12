@@ -1,0 +1,38 @@
+<html>
+<title>test</title>
+<body>
+
+<span id="tgButton">TOPGATE</span>
+<style>
+    #tgButton {
+        color: white;
+        background-color: red;
+        padding: 10px;
+        font-family: "Arial Black", arial-black;
+        display: inline-block;
+        border: 5px solid white;
+        cursor: pointer;
+    }
+</style>
+<script>
+    var tgButton = document.getElementById("tgButton");
+    tgButton.addEventListener("click", function(e) {
+        alert("TOPGATE");
+    });
+</script>
+<template id="tgButtonTemplate">
+    <style>
+        #tgButton {
+            color: white;
+            background-color: red;
+            padding: 10px;
+            font-family: "Arial Black", arial-black;
+            display: inline-block;
+            border: 5px solid white;
+            cursor: pointer;
+        }
+    </style>
+    <span id="tgButton">TOPGATE</span>
+</template>
+</body>
+</html>
